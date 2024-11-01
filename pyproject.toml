@@ -1,0 +1,74 @@
+[project]
+name = "psplib"
+version = "0.1.0"
+description = "A parser for project scheduling instances."
+authors = [
+    { name = "Leon Lan", email = "l.lan@vu.nl"},
+]
+license = { text = "MIT License" }
+readme = "README.md"
+keywords = [
+    "psplib",
+    "project scheduling",
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Development Status :: 5 - Production/Stable",
+    "Topic :: Software Development",
+    "Topic :: Scientific/Engineering",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=2.0.2",
+]
+
+
+[dependency-groups]
+dev = [
+    "pre-commit>=3.8.0",
+    "pytest>=8.3.2",
+]
+
+
+[tool.uv]
+default-groups = ["dev"]
+
+
+[tool.mypy]
+ignore_missing_imports = true
+
+
+[tool.black]
+line-length = 79
+
+
+[tool.ruff]
+line-length = 79
+extend-include = ["*.ipynb"]
+
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = [
+    "E741",  # ambiguous variable name, needed for indexing
+    "C901",  # too complex
+]
+
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"] # ignore unused module imports
+
+
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
