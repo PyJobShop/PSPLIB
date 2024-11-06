@@ -42,22 +42,16 @@ pip install pyjobshop
  Activity(modes=[Mode(duration=0, demands=[0, 0, 0, 0])], successors=[], name='')]
 ```
 
-All parsers return an instance of the [`ProjectInstance`](https://github.com/PyJobShop/PSPLIB/blob/a146112737e497ba364af8419ee43b0ea8a645fc/psplib/ProjectInstance.py#L85) class, which is an instance representation of the multi-project, multi-mode, resource-constrained project scheduling problem (MP-MM-RCPSP). 
+All parsers return an instance of the [`ProjectInstance`](https://github.com/PyJobShop/PSPLIB/blob/main/psplib/ProjectInstance.py) class, which is an instance representation of the multi-project, multi-mode, resource-constrained project scheduling problem (MP-MM-RCPSP). 
 
 ## Instance formats
 
 `psplib` implements parsers for three commonly used instance formats, listed below. 
 To parse a specific instance format, set the `instance_format` argument in `parse`.
 
-### PSPLIB format 
-The PSPLIB format is used by the [PSPLIB](https://www.om-db.wi.tum.de/psplib/) library to describe RCPSP and MMRCPSP instances.
-
-### Patterson format 
-The Patterson format is a format for RCPSP instances, mostly used by the [OR&S](https://www.projectmanagement.ugent.be/research/data) library. 
-See [this](http://www.p2engine.com/p2reader/patterson_format) website for more details.
-
-### MPLIB format 
-RCMPSP instances from the [MPLIB](https://www.projectmanagement.ugent.be/research/data) library can be parsed using this function.
+1. **PSPLIB format**: used by the [PSPLIB](https://www.om-db.wi.tum.de/psplib/) library to describe RCPSP and MMRCPSP instances.
+2. **Patterson format**: used for RCPSP instances, mostly used by the [OR&S](https://www.projectmanagement.ugent.be/research/data) library. See [this](http://www.p2engine.com/p2reader/patterson_format) website for more details.
+3. **MPLIB format**: used for RCMPSP instances from the [MPLIB](https://www.projectmanagement.ugent.be/research/data) library.
 
 ## Instance databases
 
