@@ -8,6 +8,7 @@ authors = [
 license = { text = "MIT License" }
 readme = "README.md"
 keywords = [
+    "scheduling",
     "psplib",
     "project scheduling",
 ]
