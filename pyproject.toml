@@ -26,6 +26,10 @@ dependencies = [
 ]
 
 
+[project.urls]
+Repository = "https://github.com/PyJobShop/PSPLIB"
+
+
 [dependency-groups]
 dev = [
     "pre-commit>=3.8.0",
