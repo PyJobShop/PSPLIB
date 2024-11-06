@@ -3,7 +3,7 @@
 
 # PSPLIB
 
-This library implements parsers for various project scheduling benchmark instance formats, including:
+This library implements parsers for various project scheduling benchmark instances, including:
 - Resource-Constrained Project Scheduling Problem (RCPSP)
 - Multi-Mode Resource-Constrained Project Scheduling Problem (MMRCPSP)
 - Resource-Constrained Multi Project Scheduling Problem (RCMPSP)
