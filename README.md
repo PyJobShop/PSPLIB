@@ -11,7 +11,7 @@ This library implements parsers for various project scheduling benchmark instanc
 `psplib` only depends on `numpy` and can be installed in the usual way:
 
 ```
-pip install pyjobshop
+pip install psplib
 ```
 
 
