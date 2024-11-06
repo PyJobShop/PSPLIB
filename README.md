@@ -1,4 +1,4 @@
-[![PyPI version](https://img.shields.io/pypi/v/pysplib?style=flat-square&label=PyPI)](https://pypi.org/project/psplib/)
+[![PyPI version](https://img.shields.io/pypi/v/psplib?style=flat-square&label=PyPI)](https://pypi.org/project/psplib/)
 [![CI](https://img.shields.io/github/actions/workflow/status/PyJobShop/PSPLIB/.github%2Fworkflows%2FCI.yml?branch=main&style=flat-square&logo=github&label=CI)](https://github.com/PyJobShop/PSPLIB/actions/workflows/CI.yml)
 
 # PSPLIB
