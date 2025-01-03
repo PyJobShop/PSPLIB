@@ -43,4 +43,4 @@ def parse_patterson(loc: Union[str, Path]) -> ProjectInstance:
         activities.append(Activity([Mode(duration, demands)], successors))
 
     project = Project(list(range(num_activities)))  # only one project
-    return ProjectInstance(resources, [project], activities)
+    return ProjectInstance(resources, activities, [project])

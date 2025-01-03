@@ -71,4 +71,4 @@ def parse_psplib(loc: Union[str, Path]) -> ProjectInstance:
     idcs = list(range(len(activities)))
     project = Project(idcs)  # only one project with all activities
 
-    return ProjectInstance(resources, [project], activities)
+    return ProjectInstance(resources, activities, [project])

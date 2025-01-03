@@ -63,7 +63,8 @@ class Activity:
 @dataclass
 class Project:
     """
-    Project class.
+    A project is a collection of activities that share a common release date
+    and the project is considered finished when all activities are completed.
 
     Parameters
     ----------
@@ -88,17 +89,17 @@ class ProjectInstance:
     """
 
     resources: list[Resource]
-    projects: list[Project]
     activities: list[Activity]
+    projects: list[Project]
 
     @property
     def num_resources(self):
         return len(self.resources)
 
     @property
-    def num_projects(self):
-        return len(self.projects)
-
-    @property
     def num_activities(self):
         return len(self.activities)
+
+    @property
+    def num_projects(self):
+        return len(self.projects)

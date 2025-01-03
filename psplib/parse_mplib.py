@@ -58,4 +58,4 @@ def parse_mplib(loc: Union[str, Path]) -> ProjectInstance:
         idcs = [id2idx[succ] for succ in activity.successors]  # type: ignore
         activity.successors = idcs
 
-    return ProjectInstance(resources, projects, activities)
+    return ProjectInstance(resources, activities, projects)
