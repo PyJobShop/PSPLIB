@@ -20,7 +20,6 @@ def parse_mplib(loc: Union[str, Path]) -> ProjectInstance:
         The parsed instance.
     """
     with open(loc, "r") as fh:
-        # Strip all lines and ignore all empty lines.
         lines = iter(line.strip() for line in fh.readlines() if line.strip())
 
     num_projects = int(next(lines))

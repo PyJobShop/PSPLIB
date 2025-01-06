@@ -20,7 +20,6 @@ def parse_patterson(loc: Union[str, Path]) -> ProjectInstance:
         The parsed project instance.
     """
     with open(loc, "r") as fh:
-        # Strip all lines and ignore all empty lines.
         lines = iter(line.strip() for line in fh.readlines() if line.strip())
 
     num_activities, num_resources = map(int, next(lines).split())
