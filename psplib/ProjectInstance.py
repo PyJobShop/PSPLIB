@@ -77,6 +77,9 @@ class Project:
     A project is a collection of activities that share a common release date
     and the project is considered finished when all activities are completed.
 
+    Mainly used in multi-project instances. In regular project scheduling
+    instances, there is only one project that contains all activities.
+
     Parameters
     ----------
     activities
@@ -96,7 +99,7 @@ class Project:
 @dataclass
 class ProjectInstance:
     """
-    Multi-project multi-mode resource-constrained project scheduling instance.
+    The project scheduling instance.
     """
 
     resources: list[Resource]

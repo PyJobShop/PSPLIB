@@ -43,7 +43,7 @@ pip install psplib
  Activity(modes=[Mode(duration=0, demands=[0, 0, 0, 0])], successors=[], name='')]
 ```
 
-All parsers return an instance of the [`ProjectInstance`](https://github.com/PyJobShop/PSPLIB/blob/main/psplib/ProjectInstance.py) class, which is an instance representation of the multi-project, multi-mode, resource-constrained project scheduling problem (MP-MM-RCPSP). 
+All parsers return an instance of the [`ProjectInstance`](https://github.com/PyJobShop/PSPLIB/blob/main/psplib/ProjectInstance.py) class. 
 
 ## Instance formats
 
