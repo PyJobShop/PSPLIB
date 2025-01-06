@@ -37,10 +37,10 @@ pip install psplib
 32
 
 >>> instance.activities
-[Activity(modes=[Mode(duration=0, demands=[0, 0, 0, 0])], successors=[1, 2, 3], name=''), 
- Activity(modes=[Mode(duration=8, demands=[4, 0, 0, 0])], successors=[5, 10, 14], name=''),
+[Activity(modes=[Mode(duration=0, demands=[0, 0, 0, 0])], successors=[1, 2, 3], delays=None, name=''), 
+ Activity(modes=[Mode(duration=8, demands=[4, 0, 0, 0])], successors=[5, 10, 14], delays=None, name=''),
  ...,
- Activity(modes=[Mode(duration=0, demands=[0, 0, 0, 0])], successors=[], name='')]
+ Activity(modes=[Mode(duration=0, demands=[0, 0, 0, 0])], successors=[], delays=None, name='')]
 ```
 
 All parsers return an instance of the [`ProjectInstance`](https://github.com/PyJobShop/PSPLIB/blob/main/psplib/ProjectInstance.py) class. 
