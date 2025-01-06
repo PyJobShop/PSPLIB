@@ -9,7 +9,7 @@ This library implements parsers for various project scheduling benchmark instanc
 - Resource-Constrained Multi Project Scheduling Problem (RCMPSP)
 - Resource-Constrained Project Scheduling Problem with Minimal and Maximal Time Lags (RCPSP/max)
 
-`psplib` only depends on `numpy` and can be installed in the usual way:
+`psplib` has no dependencies and can be installed in the usual way:
 
 ```
 pip install psplib
