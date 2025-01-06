@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -46,6 +47,11 @@ class Activity:
         The processing modes of this activity.
     successors
         The indices of successor activities.
+    delays
+        The delay for each successor activity. If delays are specified, then
+        the length of this list must be equal to the length of `successors`.
+        Delays are used for RCPSP/max instances, where the precedence
+        relationship is defined as ``start(pred) + delay <= start(succ)``.
     name
         Optional name of the activity to identify this activity. This is
         helpful to map this activity back to the original problem instance.
@@ -53,7 +59,12 @@ class Activity:
 
     modes: list[Mode]
     successors: list[int]
+    delays: Optional[list[int]] = None
     name: str = ""
+
+    def __post_init__(self):
+        if self.delays and len(self.delays) != len(self.successors):
+            raise ValueError("Length of successors and delays must be equal.")
 
     @property
     def num_modes(self):
@@ -65,6 +76,9 @@ class Project:
     """
     A project is a collection of activities that share a common release date
     and the project is considered finished when all activities are completed.
+
+    Mainly used in multi-project instances. In regular project scheduling
+    instances, there is only one project that contains all activities.
 
     Parameters
     ----------
@@ -85,7 +99,7 @@ class Project:
 @dataclass
 class ProjectInstance:
     """
-    Multi-project multi-mode resource-constrained project scheduling instance.
+    The project scheduling instance.
     """
 
     resources: list[Resource]

@@ -20,7 +20,6 @@ def parse_mplib(loc: Union[str, Path]) -> ProjectInstance:
         The parsed instance.
     """
     with open(loc, "r") as fh:
-        # Strip all lines and ignore all empty lines.
         lines = iter(line.strip() for line in fh.readlines() if line.strip())
 
     num_projects = int(next(lines))
@@ -50,7 +49,7 @@ def parse_mplib(loc: Union[str, Path]) -> ProjectInstance:
             mode = Mode(duration, demands)
             name = f"{project_idx}:{activity_idx}"  # original activity id
             id2idx[name] = len(activities)
-            activities.append(Activity([mode], successors, name))  # type: ignore
+            activities.append(Activity([mode], successors, name=name))  # type: ignore
 
     for activity in activities:
         # Map the successors ids from {project_idx:activity_idx}, to the

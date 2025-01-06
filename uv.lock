@@ -170,22 +170,22 @@ wheels = [
 
 [[package]]
 name = "psplib"
-version = "0.1.0"
+version = "0.1.1"
 source = { editable = "." }
 dependencies = [
     { name = "numpy" },
 ]
 
-[package.dependency-groups]
+[package.dev-dependencies]
 dev = [
     { name = "pre-commit" },
     { name = "pytest" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "numpy", specifier = ">=2.0.2" }]
+requires-dist = [{ name = "numpy", specifier = ">=1.26.0" }]
 
-[package.metadata.dependency-groups]
+[package.metadata.requires-dev]
 dev = [
     { name = "pre-commit", specifier = ">=3.8.0" },
     { name = "pytest", specifier = ">=8.3.2" },

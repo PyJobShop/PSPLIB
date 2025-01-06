@@ -25,6 +25,7 @@ def test_instance_single_mode():
     activity = instance.activities[1]  # second activity (jobnr. 2)
     successors = [4, 8]
     assert_equal(activity.successors, successors)
+    assert_equal(activity.delays, None)
 
     assert_equal(activity.num_modes, 1)
     assert_equal(activity.modes[0].duration, 2)
@@ -53,6 +54,7 @@ def test_instance_mmlib():
     activity = instance.activities[1]  # second activity (jobnr. 2)
     successors = [50, 49, 47, 24, 22, 20, 19, 17, 16, 13]
     assert_equal(activity.successors, successors)
+    assert_equal(activity.delays, None)
 
     assert_equal(activity.num_modes, 3)
     assert_equal(activity.modes[0].duration, 2)
