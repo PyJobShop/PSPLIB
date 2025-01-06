@@ -10,6 +10,7 @@ from tests.utils import relative
         ("data/Jall1_1.mm", "psplib"),
         ("data/RG300_1.rcp", "patterson"),
         ("data/MPLIB1_Set1_0.rcmp", "mplib"),
+        ("data/UBO10_01.sch", "rcpsp_max"),
     ],
 )
 def test_parse(loc, instance_format):

@@ -7,6 +7,7 @@ This library implements parsers for various project scheduling benchmark instanc
 - Resource-Constrained Project Scheduling Problem (RCPSP)
 - Multi-Mode Resource-Constrained Project Scheduling Problem (MMRCPSP)
 - Resource-Constrained Multi Project Scheduling Problem (RCMPSP)
+- Resource-Constrained Project Scheduling Problem with Minimal and Maximal Time Lags (RCPSP/Max)
 
 `psplib` only depends on `numpy` and can be installed in the usual way:
 
@@ -46,13 +47,13 @@ All parsers return an instance of the [`ProjectInstance`](https://github.com/PyJ
 
 ## Instance formats
 
-`psplib` implements parsers for three commonly used instance formats, listed below. 
+`psplib` implements parsers for commonly used project scheduling instance formats, listed below. 
 To parse a specific instance format, set the `instance_format` argument in `parse`.
 
-1. **PSPLIB format**: used by the [PSPLIB](https://www.om-db.wi.tum.de/psplib/) library to describe RCPSP and MMRCPSP instances.
-2. **Patterson format**: used for RCPSP instances, mostly used by the [OR&S](https://www.projectmanagement.ugent.be/research/data) library. See [this](http://www.p2engine.com/p2reader/patterson_format) website for more details.
-3. **MPLIB format**: used for RCMPSP instances from the [MPLIB](https://www.projectmanagement.ugent.be/research/data) library.
-4. **RCPSP/max format**: used for RCPSP/max instances from [TU Clausthal](https://www.wiwi.tu-clausthal.de/en/ueber-uns/abteilungen/betriebswirtschaftslehre-insbesondere-produktion-und-logistik/research/research-areas/project-generator-progen/max-and-psp/max-library/single-mode-project-duration-problem-rcpsp/max).
+1. `psplib`: The **PSPLIB format** is used by the [PSPLIB](https://www.om-db.wi.tum.de/psplib/) library to describe RCPSP and MMRCPSP instances.
+2. `patterson`: The **Patterson format**: used for RCPSP instances, mostly used by the [OR&S](https://www.projectmanagement.ugent.be/research/data) library. See [this](http://www.p2engine.com/p2reader/patterson_format) website for more details.
+3. `mplib`: The **MPLIB format** is used for RCMPSP instances from the [MPLIB](https://www.projectmanagement.ugent.be/research/data) library.
+4. `rcpsp_max`: The **RCPSP/max format** is used for RCPSP/max instances from [TU Clausthal](https://www.wiwi.tu-clausthal.de/en/ueber-uns/abteilungen/betriebswirtschaftslehre-insbesondere-produktion-und-logistik/research/research-areas/project-generator-progen/max-and-psp/max-library/single-mode-project-duration-problem-rcpsp/max).
 
 ## Instance databases
 
