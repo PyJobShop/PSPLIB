@@ -29,6 +29,7 @@ def test_mplib_set1():
 
     # Successors are 1:2, 1:3, 1:4 -> activity indices 1, 2, 3
     assert_equal(activity.successors, [1, 2, 3])
+    assert_equal(activity.delays, None)
 
     assert_equal(activity.num_modes, 1)
     assert_equal(activity.modes[0].demands, [0, 0, 0, 0])
@@ -60,6 +61,7 @@ def test_mplib_set2():
     # Successors are 10:14 10:13 10:12 10:9.
     successors = [(9 * 52) + idx - 1 for idx in [14, 13, 12, 9]]
     assert_equal(activity.successors, successors)
+    assert_equal(activity.delays, None)
 
     assert_equal(activity.num_modes, 1)
     assert_equal(activity.modes[0].demands, [8, 4, 3, 5, 1])

@@ -31,6 +31,7 @@ def test_rg300():
     )
     successors = list(map(int, successors.split(", ")))
     assert_equal(activity.successors, successors)
+    assert_equal(activity.delays, None)
 
     assert_equal(activity.num_modes, 1)
     assert_equal(activity.modes[0].demands, [0, 1, 0, 0])

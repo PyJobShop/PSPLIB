@@ -52,6 +52,7 @@ To parse a specific instance format, set the `instance_format` argument in `pars
 1. **PSPLIB format**: used by the [PSPLIB](https://www.om-db.wi.tum.de/psplib/) library to describe RCPSP and MMRCPSP instances.
 2. **Patterson format**: used for RCPSP instances, mostly used by the [OR&S](https://www.projectmanagement.ugent.be/research/data) library. See [this](http://www.p2engine.com/p2reader/patterson_format) website for more details.
 3. **MPLIB format**: used for RCMPSP instances from the [MPLIB](https://www.projectmanagement.ugent.be/research/data) library.
+4. **RCPSP/max format**: used for RCPSP/max instances from [TU Clausthal](https://www.wiwi.tu-clausthal.de/en/ueber-uns/abteilungen/betriebswirtschaftslehre-insbesondere-produktion-und-logistik/research/research-areas/project-generator-progen/max-and-psp/max-library/single-mode-project-duration-problem-rcpsp/max).
 
 ## Instance databases
 
@@ -60,3 +61,5 @@ The following websites host widely-used project scheduling benchmark instances.
 - [PSPLIB](https://www.om-db.wi.tum.de/psplib/) contains different problem sets for various types of resource constrained project scheduling problems as well as optimal and heuristic solutions.
 
 - [OR&S project database](https://www.projectmanagement.ugent.be/research/data) is the research data website of the Operations Research and Scheduling (OR&S) Research group of the Faculty of Economics and Business Administration at Ghent University (Belgium). OR&S is very active in the field of project scheduling and has published instances for many project scheduling variants.
+
+- [TU Clausthal](https://www.wiwi.tu-clausthal.de/ueber-uns/abteilungen/betriebswirtschaftslehre-insbesondere-produktion-und-logistik/forschung-und-transfer/schwerpunkte/projekt-generator) provides RCPSP/max benchmark instances. 

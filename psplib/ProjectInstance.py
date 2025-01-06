@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -46,6 +47,11 @@ class Activity:
         The processing modes of this activity.
     successors
         The indices of successor activities.
+    delays
+        The delay for each successor activity. If delays are specified, then
+        the length of this list must be equal to the length of `successors`.
+        Delays are used for RCPSP/max instances, where the precedence
+        relationship is defined as ``start(pred) + delay <= start(succ)``.
     name
         Optional name of the activity to identify this activity. This is
         helpful to map this activity back to the original problem instance.
@@ -53,7 +59,12 @@ class Activity:
 
     modes: list[Mode]
     successors: list[int]
+    delays: Optional[list[int]] = None
     name: str = ""
+
+    def __post_init__(self):
+        if self.delays and len(self.delays) != len(self.successors):
+            raise ValueError("Length of successors and delays must be equal.")
 
     @property
     def num_modes(self):
