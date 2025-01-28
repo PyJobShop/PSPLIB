@@ -31,9 +31,9 @@ def parse(
         return parse_psplib(loc)
     elif instance_format == "patterson":
         return parse_patterson(loc)
+    elif instance_format == "rcpsp_max":
+        return parse_rcpsp_max(loc)
     elif instance_format == "mplib":
         return parse_mplib(loc)
-    if instance_format == "rcpsp_max":
-        return parse_rcpsp_max(loc)
 
     raise ValueError(f"Unknown instance format: {instance_format}")
