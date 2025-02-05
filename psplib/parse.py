@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Union
 
 from .parse_mplib import parse_mplib
 from .parse_patterson import parse_patterson
@@ -9,7 +8,7 @@ from .ProjectInstance import ProjectInstance
 
 
 def parse(
-    loc: Union[str, Path],
+    loc: str | Path,
     instance_format: str = "psplib",
 ) -> ProjectInstance:
     """

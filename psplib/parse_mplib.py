@@ -1,10 +1,9 @@
 from pathlib import Path
-from typing import Union
 
 from .ProjectInstance import Activity, Mode, Project, ProjectInstance, Resource
 
 
-def parse_mplib(loc: Union[str, Path]) -> ProjectInstance:
+def parse_mplib(loc: str | Path) -> ProjectInstance:
     """
     Parses a multi-project resource-constrained project scheduling problem
     instances from MPLIB.
