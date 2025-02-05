@@ -13,10 +13,13 @@ class Resource:
         The available maximum capacity of the resource.
     renewable
         Whether the resource is renewable or not.
+    skills
+        The skills of the resource.
     """
 
     capacity: int
     renewable: bool
+    skills: Optional[list[int]] = None
 
 
 @dataclass
@@ -29,11 +32,17 @@ class Mode:
     duration
         The duration of this processing mode.
     demands
-        The resource demands (one per resource) of this processing mode.
+        The resource demands of this processing mode. If skills is `None`,
+        then the length of this list must be equal to the total number of
+        resources in the instance. Otherwise, the length of this list must be
+        equal to length of the requested skills.
+    skills
+        The requested skills, if applicable.
     """
 
     duration: int
     demands: list[int]
+    skills: Optional[list[int]] = None
 
 
 @dataclass
