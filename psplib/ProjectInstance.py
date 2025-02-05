@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from typing import Optional
 
 
 @dataclass
@@ -64,7 +65,7 @@ class Activity:
 
     modes: list[Mode]
     successors: list[int]
-    delays: list[int] | None = None
+    delays: Optional[list[int]] = None
     selection_groups: list[list[int]] = field(default_factory=list)
     optional: bool = False
     name: str = ""
