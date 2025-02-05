@@ -2,6 +2,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from itertools import chain
 from pathlib import Path
+from typing import Union
 
 from .ProjectInstance import (
     Activity,
@@ -81,7 +82,7 @@ def _parse_part_b(lines) -> list[AlternativeSubgraph]:
     return result
 
 
-def parse_aslib(loc: str | Path) -> ProjectInstance:
+def parse_aslib(loc: Union[str, Path]) -> ProjectInstance:
     """
     Parses an ASLIB-formatted instance from a file. This format is used for
     RCPSP instances with alternative subgraphs.

@@ -1,9 +1,10 @@
 from pathlib import Path
+from typing import Union
 
 from .ProjectInstance import Activity, Mode, Project, ProjectInstance, Resource
 
 
-def parse_rcpsp_ps(instance_loc: str | Path) -> ProjectInstance:
+def parse_rcpsp_ps(instance_loc: Union[str, Path]) -> ProjectInstance:
     """
     Parses a RCPSP-PS formatted instance from Van der Beek et al. (2024).
     """
