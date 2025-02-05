@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Union
 
+from .parse_aslib import parse_aslib
 from .parse_mplib import parse_mplib
 from .parse_patterson import parse_patterson
 from .parse_psplib import parse_psplib
@@ -38,5 +39,7 @@ def parse(
         return parse_mplib(loc)
     elif instance_format == "rcpsp_ps":
         return parse_rcpsp_ps(loc)
+    elif instance_format == "aslib":
+        return parse_aslib(loc)
 
     raise ValueError(f"Unknown instance format: {instance_format}")

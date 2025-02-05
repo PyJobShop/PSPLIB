@@ -1,11 +1,15 @@
-from collections import defaultdict
+from collections import defaultdict, deque
 from dataclasses import dataclass
+from itertools import chain
 from pathlib import Path
 
-import matplotlib.pyplot as plt
-import networkx as nx
-
-from psplib import ProjectInstance, parse
+from .ProjectInstance import (
+    Activity,
+    Mode,
+    Project,
+    ProjectInstance,
+    Resource,
+)
 
 
 @dataclass
@@ -23,29 +27,32 @@ class AlternativeSubgraph:
     branches: list[list[int]]
 
 
-def parse_aslib(loc: str | Path) -> list[AlternativeSubgraph]:
+def _parse_part_a(lines):
     """
-    Parses an ASLIB-formatted instance from a file. This format is used for
-    RCPSP instances with alternative subgraphs.
-
-    Note
-    ----
-    This only parses the "b" files from the ASLIB instance. The "a" files
-    are parsed as Patterson-formatted instances.
-
-    Parameters
-    ----------
-    loc
-        The location of the instance.
-
-    Returns
-    -------
-    list[AlternativeSubgraph]
-        The alternative subgraphs data.
+    Part (a) of ASLIB instance is formatted as Patterson instance.
     """
-    with open(loc, "r") as fh:
-        lines = iter(line.strip() for line in fh.readlines() if line.strip())
+    num_activities, num_resources = map(int, next(lines).split())
 
+    # Instances without resources do not have an availability line.
+    capacities = list(map(int, next(lines).split())) if num_resources else []
+    resources = [Resource(capacity=cap, renewable=True) for cap in capacities]
+
+    activities = []
+    for _ in range(num_activities):
+        values = map(int, next(lines).split())
+        duration = int(next(values))
+        demands = [int(next(values)) for _ in range(num_resources)]
+        num_successors = int(next(values))
+        successors = [int(next(values)) - 1 for _ in range(num_successors)]
+        activities.append(Activity([Mode(duration, demands)], successors))
+
+    return resources, activities
+
+
+def _parse_part_b(lines) -> list[AlternativeSubgraph]:
+    """
+    Part (b) of ASLIB instance results in alternative subgraphs.
+    """
     pct_flex, pct_nested, pct_linked = map(float, next(lines).split())
     num_subgraphs = int(next(lines))
     total_branches = 1  # first branch is always the dummy branch
@@ -63,138 +70,128 @@ def parse_aslib(loc: str | Path) -> list[AlternativeSubgraph]:
         for idx in branch_idcs:
             branches[idx - 1].append(activity)
 
+    # Return the alternative subgraphs, with the first subgraph containing the
+    # fixed activities (an activity belongs to node branch 0 if it is fixed).
     result = [AlternativeSubgraph([branches[0]])]
     result += [
         AlternativeSubgraph([branches[idx] for idx in branch_idcs])
         for branch_idcs in subgraphs
     ]
+
     return result
 
 
-def to_networkx_graph(instance: ProjectInstance) -> nx.DiGraph:
+def parse_aslib(loc: str | Path) -> ProjectInstance:
     """
-    Converts a ProjectInstance to a networkX DiGraph.
+    Parses an ASLIB-formatted instance from a file. This format is used for
+    RCPSP instances with alternative subgraphs.
+
+    Note
+    ----
+    This function parses files that combine both "a" and "b" part files from
+    the ASLIB instance. You have to manually create such instances first!
+
+    Parameters
+    ----------
+    loc
+        The location of the instance.
+
+    Returns
+    -------
+    ProjectInstance
+        The parsed project instance.
     """
-    G = nx.DiGraph()
+    with open(loc, "r") as fh:
+        lines = iter(line.strip() for line in fh.readlines() if line.strip())
 
-    for idx, activity in enumerate(instance.activities):
-        G.add_node(idx)
-        for succ in activity.successors:
-            G.add_edge(idx, succ)
+    resources, activities = _parse_part_a(lines)
+    subgraphs = _parse_part_b(lines)
 
-    return G
+    # With the already parsed activities and alternative subgraph data,
+    # we add optional and selections groups data to the activities.
+    activities = _make_optional_activities(activities, subgraphs)
+
+    project = Project(list(range(len(activities))))
+    return ProjectInstance(resources, activities, [project])
 
 
-def plot_graph(G: nx.DiGraph, subgraphs: list[AlternativeSubgraph]):
+class DiGraph:
     """
-    Plot the graph using networkx with multipartite layout and coloring
-    nodes based on branch membership.
+    Simple directed graph implementation to replace networkx.DiGraph.
     """
 
-    assert nx.is_directed_acyclic_graph(G)
+    def __init__(self):
+        self.adj: dict[int, list[int]] = defaultdict(list)
+        self.nodes = set()
 
-    for layer, nodes in enumerate(nx.topological_generations(G)):
-        for node in nodes:
-            G.nodes[node]["layer"] = layer
+    def add_node(self, node: int):
+        self.nodes.add(node)
 
-    pos = nx.multipartite_layout(G, subset_key="layer")
-    colors = color_nodes(G, subgraphs)
+    def add_edge(self, u: int, v: int):
+        self.adj[u].append(v)
+        self.nodes.add(u)
+        self.nodes.add(v)
 
-    fig, ax = plt.subplots()
-    nx.draw_networkx(
-        G,
-        pos=pos,
-        ax=ax,
-        node_color=colors,
-        cmap=plt.cm.get_cmap("tab10"),
-    )
-    ax.set_title("DAG layout in topological order")
-    fig.tight_layout()
-    plt.show()
+    def topological_sort(self) -> list[int]:
+        """
+        Returns a topological ordering of the graph's nodes.
+        """
+        in_degree = {node: 0 for node in self.nodes}
+        for u in self.adj:
+            for v in self.adj[u]:
+                in_degree[v] += 1
+
+        queue = deque(node for node in self.nodes if in_degree[node] == 0)
+        order = []
+        while queue:
+            node = queue.popleft()
+            order.append(node)
+            for neighbor in self.adj[node]:
+                in_degree[neighbor] -= 1
+                if in_degree[neighbor] == 0:
+                    queue.append(neighbor)
+
+        return order
+
+    @classmethod
+    def from_activities(cls, activities: list[Activity]):
+        G = cls()
+        for idx, activity in enumerate(activities):
+            G.add_node(idx)
+            for succ in activity.successors:
+                G.add_edge(idx, succ)
+
+        return G
 
 
-def color_nodes(G, graphs):
+def _make_optional_activities(
+    activities: list[Activity],
+    subgraphs: list[AlternativeSubgraph],
+) -> list[Activity]:
     """
-    Assign colors to nodes based on their branch membership.
+    Adds optional and selection group data to activities based on alternative
+    subgraph data. Because the activity graphs are directed acylcic, we can
+    transform subgraphs into selection groups.
     """
-    colors = []
-    branches = [branch for graph in graphs for branch in graph.branches]
-    for node in G.nodes:
-        for idx, branch in enumerate(branches):
-            if node in branch:
-                colors.append(idx)
-                break
-        else:
-            colors.append(-1)
-    return colors
+    G = DiGraph.from_activities(activities)
+    order = G.topological_sort()
 
-
-def write_rcpsp_ps(loc, instance, tasks):
-    """
-    Writes instance in "van der Beek (2024)" format.
-    """
-    with open(loc, "w") as fh:
-
-        def write(*args):
-            fh.write(" ".join(map(str, args)) + "\n")
-
-        write(instance.num_activities, instance.num_resources, 0)
-        write(*[res.capacity for res in instance.resources])
-
-        fixed = [idx for idx, task in enumerate(tasks) if not task.optional]
-        write(*fixed)
-
-        for task in tasks:
-            write()
-            write(*([task.duration] + task.demands))
-
-            groups_line = [len(task.groups)]
-            for group in task.groups:
-                groups_line.append(len(group))
-                groups_line.extend(group)
-
-            write(*groups_line)
-            write(len(task.successors), *task.successors)
-
-
-@dataclass
-class VDBTask:
-    duration: int
-    demands: list[int]
-    successors: list[int]
-    optional: bool
-    groups: list[list[int]]
-
-
-def subgraphs2vdbtasks(
-    instance: ProjectInstance, subgraphs: list[AlternativeSubgraph]
-) -> list[VDBTask]:
-    """
-    Converts the RCPSP-AS instance to a list of tasks for VanDerBeek-format.
-    """
-    G = to_networkx_graph(instance)
-    top_gen = nx.topological_generations(G)
-    order = [node for nodes in top_gen for node in nodes]
-
-    fixed_graphs, alternative_graphs = subgraphs[0], subgraphs[1:]
-    fixed_activities = fixed_graphs.branches[0]
-
-    all_branching = []  # all branching activities
+    is_fixed = subgraphs[0].branches[0]  # first subgraph contains fixed nodes
+    alternatives = subgraphs[1:]
+    all_branching = []  # idcs of branching activities
     groups = defaultdict(list)
 
-    for graph in alternative_graphs:
+    for subgraph in alternatives:
         # The branching activities are the lowest-indexed activities in each
-        # branch. This works because we have a DAG: the lowest-indexed activity
-        # is guaranteed to be the first activity in the branch. (TODO verify.)
-        branching = [min(b, key=order.index) for b in graph.branches]
+        # branch. This works because we have a directed acyclic graph.
+        branching = [min(b, key=order.index) for b in subgraph.branches]
+        arcs = [(u, v) for u in G.adj for v in G.adj[u] if v in branching]
 
-        # The branching arcs are the arcs that go from the principal activity
-        # to the branching activities. We can find the principal activity by
-        # finding the sole activity that goes to the branching activities.
-        branching_arcs = [(u, v) for u, v in G.edges if v in branching]
-        candidates = {u for (u, _) in branching_arcs}
-        assert len(candidates) == 1  # should be only 1 principal activity
-        principal = candidates.pop()
+        # The principal activity is the sole activity that goes to the
+        # branching activities.
+        nodes = {u for (u, _) in arcs}
+        assert len(nodes) == 1  # should be only 1 principal activity
+        principal = nodes.pop()
 
         all_branching.extend(branching)
         groups[principal].append(branching)
@@ -202,39 +199,25 @@ def subgraphs2vdbtasks(
     # For all remaining edges, we add another unit selection group if
     # v is not a branching activity. Edges with v as a branching activity
     # are already covered by the groups above.
-    for u, v in G.edges:
-        if v not in all_branching:
-            groups[u].append([v])
+    for u in G.adj:
+        for v in G.adj[u]:
+            if v not in all_branching:
+                groups[u].append([v])
 
-    tasks = []
-    for idx, activity in enumerate(instance.activities):
-        duration = activity.modes[0].duration
-        demands = activity.modes[0].demands
-        successors = activity.successors
-        task = VDBTask(
-            duration,
-            demands,
-            successors,
-            idx not in fixed_activities,
-            groups[idx],
+    # Create new activities with optional and selection group data.
+    new = []
+    for idx, activity in enumerate(activities):
+        activity = Activity(
+            modes=activity.modes,
+            successors=activity.successors,
+            optional=idx not in is_fixed,
+            selection_groups=groups[idx],
         )
-        tasks.append(task)
+        new.append(activity)
 
-    for task in tasks:
-        # In RCPSP-AS, all timing successors are also selection successors.
-        select_succ = [succ for group in task.groups for succ in group]
-        assert sorted(select_succ) == sorted(task.successors)
+    for activity in new:
+        # Check: In RCPSP-AS, timing successors are also selection successors.
+        select_succ = list(chain(*activity.selection_groups))
+        assert sorted(select_succ) == sorted(activity.successors)
 
-    return tasks
-
-
-if __name__ == "__main__":
-    for instance_idx in range(1010):
-        instance_loc = f"tmp/ASLIB/ASLIB0/aslib0_{instance_idx}a.RCP"
-        instance = parse(instance_loc, instance_format="patterson")
-        subgraphs = parse_aslib(instance_loc.replace("a.RCP", "b.RCP"))
-        tasks = subgraphs2vdbtasks(instance, subgraphs)
-
-        loc = f"tmp/rcpsp-ps/instances/ASLIB0/aslib0_{instance_idx}a.txt"
-        write_rcpsp_ps(loc, instance, tasks)
-        print(instance_idx)
+    return new
