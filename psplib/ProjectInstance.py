@@ -1,5 +1,4 @@
-from dataclasses import dataclass
-from typing import Optional
+from dataclasses import dataclass, field
 
 
 @dataclass
@@ -52,6 +51,12 @@ class Activity:
         the length of this list must be equal to the length of `successors`.
         Delays are used for RCPSP/max instances, where the precedence
         relationship is defined as ``start(pred) + delay <= start(succ)``.
+    selection_groups
+        The selection groups of this activity. If the current activity is
+        scheduled, then for each group, exactly one activity must be scheduled.
+        This is used for RCPSP-PS instances. Default empty list.
+    optional
+        Whether this activity is optional or not. Default ``False``.
     name
         Optional name of the activity to identify this activity. This is
         helpful to map this activity back to the original problem instance.
@@ -59,7 +64,9 @@ class Activity:
 
     modes: list[Mode]
     successors: list[int]
-    delays: Optional[list[int]] = None
+    delays: list[int] | None = None
+    selection_groups: list[list[int]] = field(default_factory=list)
+    optional: bool = False
     name: str = ""
 
     def __post_init__(self):

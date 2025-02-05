@@ -18,11 +18,6 @@ def test_mplib_set1():
     assert_equal(capacities, [56, 56, 56, 56])
     assert_equal(renewables, [True, True, True, True])
 
-    assert_equal(instance.num_projects, 6)
-    for project in instance.projects:
-        assert_equal(project.num_activities, 62)
-        assert_equal(project.release_date, 0)
-
     assert_equal(instance.num_activities, 6 * 62)
 
     activity = instance.activities[0]
@@ -34,6 +29,11 @@ def test_mplib_set1():
     assert_equal(activity.num_modes, 1)
     assert_equal(activity.modes[0].demands, [0, 0, 0, 0])
     assert_equal(activity.modes[0].duration, 0)
+
+    assert_equal(instance.num_projects, 6)
+    for project in instance.projects:
+        assert_equal(project.num_activities, 62)
+        assert_equal(project.release_date, 0)
 
 
 def test_mplib_set2():
@@ -49,11 +49,6 @@ def test_mplib_set2():
     assert_equal(capacities, [48, 48, 46, 50, 48])
     assert_equal(renewables, [True, True, True, True, True])
 
-    assert_equal(instance.num_projects, 10)
-    for project in instance.projects:
-        assert_equal(project.num_activities, 52)
-        assert_equal(project.release_date, 0)
-
     assert_equal(instance.num_activities, 10 * 52)
 
     activity = instance.activities[-51]  # second activity of last project
@@ -66,3 +61,8 @@ def test_mplib_set2():
     assert_equal(activity.num_modes, 1)
     assert_equal(activity.modes[0].demands, [8, 4, 3, 5, 1])
     assert_equal(activity.modes[0].duration, 7)
+
+    assert_equal(instance.num_projects, 10)
+    for project in instance.projects:
+        assert_equal(project.num_activities, 52)
+        assert_equal(project.release_date, 0)

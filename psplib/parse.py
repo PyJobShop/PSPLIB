@@ -5,6 +5,7 @@ from .parse_mplib import parse_mplib
 from .parse_patterson import parse_patterson
 from .parse_psplib import parse_psplib
 from .parse_rcpsp_max import parse_rcpsp_max
+from .parse_rcpsp_ps import parse_rcpsp_ps
 from .ProjectInstance import ProjectInstance
 
 
@@ -35,5 +36,7 @@ def parse(
         return parse_rcpsp_max(loc)
     elif instance_format == "mplib":
         return parse_mplib(loc)
+    elif instance_format == "rcpsp_ps":
+        return parse_rcpsp_ps(loc)
 
     raise ValueError(f"Unknown instance format: {instance_format}")
