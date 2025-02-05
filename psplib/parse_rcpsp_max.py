@@ -1,9 +1,10 @@
 from pathlib import Path
+from typing import Union
 
 from .ProjectInstance import Activity, Mode, Project, ProjectInstance, Resource
 
 
-def parse_rcpsp_max(loc: str | Path) -> ProjectInstance:
+def parse_rcpsp_max(loc: Union[str, Path]) -> ProjectInstance:
     """
     Parses the RCPSP/max instance format.
 

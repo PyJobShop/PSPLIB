@@ -1,5 +1,6 @@
 import re
 from pathlib import Path
+from typing import Union
 
 from .ProjectInstance import Activity, Mode, Project, ProjectInstance, Resource
 
@@ -12,7 +13,7 @@ def _find(lines: list[str], pattern: str) -> int:
     raise ValueError(f"Pattern '{pattern}' not found in lines.")
 
 
-def parse_psplib(loc: str | Path) -> ProjectInstance:
+def parse_psplib(loc: Union[str, Path]) -> ProjectInstance:
     """
     Parses an PSPLIB-formatted instance from a file.
 
@@ -41,7 +42,7 @@ def parse_psplib(loc: str | Path) -> ProjectInstance:
     ]
     resources = [
         Resource(capacity, is_renewable)
-        for capacity, is_renewable in zip(capacities, renewable, strict=False)
+        for capacity, is_renewable in zip(capacities, renewable)
     ]
     num_resources = len(resources)
 
