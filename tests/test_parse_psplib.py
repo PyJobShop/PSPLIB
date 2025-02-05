@@ -18,8 +18,6 @@ def test_instance_single_mode():
     assert_equal(capacities, [12, 9, 37, 53])
     assert_equal(renewables, [True, True, False, False])
 
-    assert_equal(instance.num_projects, 1)
-    assert_equal(instance.projects[0].num_activities, 18)
     assert_equal(instance.num_activities, 18)
 
     activity = instance.activities[1]  # second activity (jobnr. 2)
@@ -30,6 +28,9 @@ def test_instance_single_mode():
     assert_equal(activity.num_modes, 1)
     assert_equal(activity.modes[0].duration, 2)
     assert_equal(activity.modes[0].demands, [0, 4, 8, 0])
+
+    assert_equal(instance.num_projects, 1)
+    assert_equal(instance.projects[0].num_activities, 18)
 
 
 def test_instance_mmlib():
@@ -46,9 +47,6 @@ def test_instance_mmlib():
     assert_equal(capacities, [33, 33, 247, 248])
     assert_equal(renewables, [True, True, False, False])
 
-    assert_equal(instance.num_projects, 1)
-    assert_equal(instance.projects[0].num_activities, 52)
-
     assert_equal(instance.num_activities, 52)
 
     activity = instance.activities[1]  # second activity (jobnr. 2)
@@ -63,3 +61,6 @@ def test_instance_mmlib():
     assert_equal(activity.modes[1].demands, [5, 5, 2, 6])
     assert_equal(activity.modes[2].duration, 4)
     assert_equal(activity.modes[2].demands, [4, 5, 2, 6])
+
+    assert_equal(instance.num_projects, 1)
+    assert_equal(instance.projects[0].num_activities, 52)

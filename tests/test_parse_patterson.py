@@ -18,8 +18,6 @@ def test_rg300():
     assert_equal(capacities, [10, 10, 10, 10])
     assert_equal(renewables, [True, True, True, True])
 
-    assert_equal(instance.num_projects, 1)
-    assert_equal(instance.projects[0].num_activities, 302)
     assert_equal(instance.num_activities, 302)
 
     activity = instance.activities[1]  # second activity
@@ -36,3 +34,6 @@ def test_rg300():
     assert_equal(activity.num_modes, 1)
     assert_equal(activity.modes[0].demands, [0, 1, 0, 0])
     assert_equal(activity.modes[0].duration, 3)
+
+    assert_equal(instance.num_projects, 1)
+    assert_equal(instance.projects[0].num_activities, 302)
