@@ -35,8 +35,8 @@ def parse_rcpsp_ps(instance_loc: Union[str, Path]) -> ProjectInstance:
             Activity(
                 [Mode(duration, demands)],
                 successors,
-                selection_groups=groups,
                 optional=idx > 0,  # source activity is not optional
+                selection_groups=groups,
             )
         )
 
