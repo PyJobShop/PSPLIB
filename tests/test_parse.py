@@ -11,6 +11,7 @@ from tests.utils import relative
         ("data/RG300_1.rcp", "patterson"),
         ("data/MPLIB1_Set1_0.rcmp", "mplib"),
         ("data/UBO10_01.sch", "rcpsp_max"),
+        ("data/rcpsp_ps.txt", "rcpsp_ps"),
     ],
 )
 def test_parse(loc, instance_format):
