@@ -5,9 +5,10 @@
 
 This library implements parsers for various project scheduling benchmark instances, including:
 - Resource-Constrained Project Scheduling Problem (RCPSP)
-- Multi-Mode Resource-Constrained Project Scheduling Problem (MMRCPSP)
-- Resource-Constrained Project Scheduling Problem with Minimal and Maximal Time Lags (RCPSP/max)
+- Multi-Mode RCPSP (MMRCPSP)
+- RCPSP with Minimal and Maximal Time Lags (RCPSP/max)
 - Resource-Constrained Multi Project Scheduling Problem (RCMPSP)
+- RCPSP with flexible project structure (RCPSP-PS) and RCPSP with alternative subgraphs (RCPSP-AS)
 
 `psplib` has no dependencies and can be installed in the usual way:
 
@@ -47,6 +48,11 @@ To parse a specific instance format, set the `instance_format` argument in `pars
 2. `patterson`: The **Patterson format**: used for RCPSP instances, mostly used by the [OR&S](https://www.projectmanagement.ugent.be/research/data) library. See [this](http://www.p2engine.com/p2reader/patterson_format) website for more details.
 3. `rcpsp_max`: The **RCPSP/max format** is used for RCPSP/max instances from [TU Clausthal](https://www.wiwi.tu-clausthal.de/en/ueber-uns/abteilungen/betriebswirtschaftslehre-insbesondere-produktion-und-logistik/research/research-areas/project-generator-progen/max-and-psp/max-library/single-mode-project-duration-problem-rcpsp/max).
 4. `mplib`: The **MPLIB format** is used for RCMPSP instances from the [MPLIB](https://www.projectmanagement.ugent.be/research/data) library.
+5. `rcpsp_ps`: The **RCPSP-PS format** is the format used by [Van der Beek et al. (2024)](https://www.sciencedirect.com/science/article/pii/S0377221724008269).
+Specifically, we included an extra line that defines for each task whether it is optional or not.
+6. `aslib`: The **ASLIB format** is the format used by RCPSP-AS instances from the ASLIB instance set at [OR&S project database](https://www.projectmanagement.ugent.be/research/data).
+ASLIB consist of three different parts (a, b, c). 
+To use this parser, you have to merge parts (a) and (b) into a single file - part (c) is not parsed.
 
 ## Instance databases
 
