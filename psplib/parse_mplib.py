@@ -33,11 +33,20 @@ def parse_mplib(loc: Union[str, Path]) -> ProjectInstance:
     id2idx: dict[str, int] = {}  # maps activity names to idcs
 
     for project_idx in range(1, num_projects + 1):
-        num_activities, release_date = map(int, next(lines).split())
+        project_data = list(map(int, next(lines).split()))
+
+        if len(project_data) == 3:
+            # Modified MPLIB instances that include due date.
+            num_activities, release_date, due_date = project_data
+        else:
+            # Original MPLIB instances do not include due date.
+            num_activities, release_date = project_data
+            due_date = None
+
         next(lines)  # denotes used resources, implies that demand > 0
 
         idcs = [len(activities) + idx for idx in range(num_activities)]
-        projects.append(Project(idcs, release_date))
+        projects.append(Project(idcs, release_date, due_date))
 
         for activity_idx in range(1, num_activities + 1):
             line = next(lines).split()

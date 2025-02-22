@@ -34,6 +34,7 @@ def test_mplib_set1():
     for project in instance.projects:
         assert_equal(project.num_activities, 62)
         assert_equal(project.release_date, 0)
+        assert_equal(project.due_date, None)
 
 
 def test_mplib_set2():
@@ -66,3 +67,21 @@ def test_mplib_set2():
     for project in instance.projects:
         assert_equal(project.num_activities, 52)
         assert_equal(project.release_date, 0)
+        assert_equal(project.due_date, None)
+
+
+def test_mplib_set1_with_due_date():
+    """
+    Tests that the instance ``MPLIB1_Set1_0_due_date.rcmp`` is correctly
+    parsed, which includes due dates for each project.
+    """
+    instance = parse_mplib(relative("data/MPLIB1_Set1_0_due_date.rcmp"))
+
+    # It's the same as the original instance, but now due dates.
+    due_dates = [113, 96, 117, 138, 216, 233]
+
+    assert_equal(instance.num_projects, 6)
+    for idx, project in enumerate(instance.projects):
+        assert_equal(project.num_activities, 62)
+        assert_equal(project.release_date, 0)
+        assert_equal(project.due_date, due_dates[idx])
