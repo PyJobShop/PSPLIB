@@ -13,10 +13,14 @@ class Resource:
         The available maximum capacity of the resource.
     renewable
         Whether the resource is renewable or not.
+    skills
+        Whether the resource has a skill or not. Default is ``None``,
+        which means that there are no skills considered.
     """
 
     capacity: int
     renewable: bool
+    skills: Optional[list[bool]] = None
 
 
 @dataclass
@@ -30,10 +34,14 @@ class Mode:
         The duration of this processing mode.
     demands
         The resource demands (one per resource) of this processing mode.
+    skill_requirements
+        The skill requirements (one per skill) of this processing mode,
+        if applicable.
     """
 
     duration: int
     demands: list[int]
+    skill_requirements: Optional[list[int]] = None
 
 
 @dataclass
@@ -111,11 +119,24 @@ class Project:
 class ProjectInstance:
     """
     The project scheduling instance.
+
+    Parameters
+    ----------
+    resources
+        The resources available in the instance.
+    activities
+        The activities that need to be scheduled.
+    projects
+        The projects that contain the activities.
+    skills
+        The skills that are available in the instance. Default is ``None``,
+        which means that the instance does not consider skills.
     """
 
     resources: list[Resource]
     activities: list[Activity]
     projects: list[Project]
+    skills: Optional[list[int]] = None
 
     @property
     def num_resources(self):
@@ -128,3 +149,25 @@ class ProjectInstance:
     @property
     def num_projects(self):
         return len(self.projects)
+
+    @property
+    def num_skills(self):
+        return len(self.skills) if self.skills else 0
+
+    def __post_init__(self):
+        for activity in self.activities:
+            for mode in activity.modes:
+                if (
+                    mode.skill_requirements is not None
+                    and len(mode.skill_requirements) != self.num_skills
+                ):
+                    msg = "Skill requirements does not match number of skills."
+                    raise ValueError(msg)
+
+        for resource in self.resources:
+            if (
+                resource.skills is not None
+                and len(resource.skills) != self.num_skills
+            ):
+                msg = "Resource skills does not match number of skills."
+                raise ValueError(msg)

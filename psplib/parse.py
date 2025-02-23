@@ -3,6 +3,7 @@ from typing import Union
 
 from .parse_aslib import parse_aslib
 from .parse_mplib import parse_mplib
+from .parse_mslib import parse_mslib
 from .parse_patterson import parse_patterson
 from .parse_psplib import parse_psplib
 from .parse_rcpsp_max import parse_rcpsp_max
@@ -41,5 +42,7 @@ def parse(
         return parse_rcpsp_ps(loc)
     elif instance_format == "aslib":
         return parse_aslib(loc)
+    elif instance_format == "mslib":
+        return parse_mslib(loc)
 
     raise ValueError(f"Unknown instance format: {instance_format}")
