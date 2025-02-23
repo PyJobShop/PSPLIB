@@ -9,6 +9,7 @@ This library implements parsers for various project scheduling benchmark instanc
 - RCPSP with Minimal and Maximal Time Lags (RCPSP/max)
 - Resource-Constrained Multi Project Scheduling Problem (RCMPSP)
 - RCPSP with flexible project structure (RCPSP-PS) and RCPSP with alternative subgraphs (RCPSP-AS)
+- Multi-skilled RCPSP (MSRCPSP)
 
 `psplib` has no dependencies and can be installed in the usual way:
 
@@ -25,16 +26,16 @@ pip install psplib
 4
 
 >>> instance.resources
-[Resource(capacity=12, renewable=True), ..., Resource(capacity=12, renewable=True)]
+[Resource(capacity=12, renewable=True, skills=None), ..., Resource(capacity=12, renewable=True, skills=None)]
 
 >>> instance.num_activities
 32
 
 >>> instance.activities
-[Activity(modes=[Mode(duration=0, demands=[0, 0, 0, 0])], successors=[1, 2, 3], delays=None, name=''), 
- Activity(modes=[Mode(duration=8, demands=[4, 0, 0, 0])], successors=[5, 10, 14], delays=None, name=''),
+[Activity(modes=[Mode(duration=0, demands=[0, 0, 0, 0])], successors=[1, 2, 3], delays=None, skills=None, name=''), 
+ Activity(modes=[Mode(duration=8, demands=[4, 0, 0, 0])], successors=[5, 10, 14], delays=None, skills=None, name=''),
  ...,
- Activity(modes=[Mode(duration=0, demands=[0, 0, 0, 0])], successors=[], delays=None, name='')]
+ Activity(modes=[Mode(duration=0, demands=[0, 0, 0, 0])], successors=[], delays=None, skills=None, name='')]
 ```
 
 See [this](https://github.com/PyJobShop/PSPLIB/blob/main/example.ipynb) notebook for a slightly longer example demonstration of PSPLIB.
@@ -53,6 +54,7 @@ Specifically, we included an extra line that defines for each task whether it is
 6. `aslib`: The **ASLIB format** is the format used by RCPSP-AS instances from the ASLIB instance set at [OR&S project database](https://www.projectmanagement.ugent.be/research/data).
 ASLIB consist of three different parts (a, b, c). 
 To use this parser, you have to merge parts (a) and (b) into a single file - part (c) is not parsed.
+7. `mslib`: The **MSLIB format** is the format used by MSRCPSP instances from the MSLIB instance set at [OR&S project database](https://www.projectmanagement.ugent.be/research/project_scheduling/MSRCPSP).
 
 ## Instance databases
 
