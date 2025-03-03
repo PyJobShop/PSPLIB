@@ -30,7 +30,7 @@ def parse_mslib(loc: Union[str, Path]) -> ProjectInstance:
     # Workforce module.
     next(lines)
     resource_skills = [
-        list(map(bool, next(lines).split())) for _ in range(num_resources)
+        list(map(int, next(lines).split())) for _ in range(num_resources)
     ]
 
     # Workforce module with skill levels.
@@ -43,13 +43,17 @@ def parse_mslib(loc: Union[str, Path]) -> ProjectInstance:
         list(map(int, next(lines).split())) for _ in range(num_activities)
     ]
 
-    # All other lines are for extensions to MSRCPSP.
-    skills = list(range(len(resource_skills[0])))
+    # All other lines are for extensions to MSRCPSP
+    # ...
 
     # Resources always have capacity 1 because they can only process one
     # activity at a time.
     resources = [
-        Resource(capacity=1, renewable=True, skills=skills)
+        Resource(
+            capacity=1,
+            renewable=True,
+            skills=[bool(s) for s in skills],  # convert 0/1s
+        )
         for skills in resource_skills
     ]
 
@@ -68,4 +72,5 @@ def parse_mslib(loc: Union[str, Path]) -> ProjectInstance:
     ]
 
     project = Project(list(range(len(activities))))
+    skills = list(range(len(resource_skills[0])))
     return ProjectInstance(resources, activities, [project], skills)
