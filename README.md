@@ -53,7 +53,7 @@ To parse a specific instance format, set the `instance_format` argument in `pars
 Specifically, we included an extra line that defines for each task whether it is optional or not.
 6. `aslib`: The **ASLIB format** is the format used by RCPSP-AS instances from the ASLIB instance set at [OR&S project database](https://www.projectmanagement.ugent.be/research/data).
 ASLIB consist of three different parts (a, b, c). 
-To use this parser, you have to merge parts (a) and (b) into a single file - part (c) is not parsed.
+To use this parser, you have to merge parts (a) and (b) into a single file - part (c) is not parsed. See [this](https://gist.github.com/leonlan/1064a9e785d4dca78b0839984edb1691) gist.
 7. `mslib`: The **MSLIB format** is the format used by MSRCPSP instances from the MSLIB instance set at [OR&S project database](https://www.projectmanagement.ugent.be/research/project_scheduling/MSRCPSP).
 
 ## Instance databases

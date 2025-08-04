@@ -64,7 +64,7 @@ class Activity:
         Whether this activity is optional or not. Default ``False``.
     selection_groups
         The selection groups of this activity. If the current activity is
-        scheduled, then for each group, exactly one activity must be scheduled.
+        scheduled, then for each group at least one activity must be scheduled.
         This is used for RCPSP-PS instances. Default is an empty list.
     name
         Optional name of the activity to identify this activity. This is
