@@ -42,7 +42,7 @@ def parse_psplib(loc: Union[str, Path]) -> ProjectInstance:
     ]
     resources = [
         Resource(capacity, is_renewable)
-        for capacity, is_renewable in zip(capacities, renewable)
+        for capacity, is_renewable in zip(capacities, renewable, strict=True)
     ]
     num_resources = len(resources)
 
