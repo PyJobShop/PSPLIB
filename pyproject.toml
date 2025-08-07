@@ -1,6 +1,6 @@
 [project]
 name = "psplib"
-version = "0.4.0"
+version = "0.5.0a"
 description = "A parser for project scheduling instances."
 authors = [
     { name = "Leon Lan", email = "l.lan@vu.nl"},
