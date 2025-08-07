@@ -101,13 +101,10 @@ class Project:
         The activities indices that belong to this project.
     release_date
         The earliest start time of this project.
-    due_date
-        The due date of this project, if available. Default is ``None``.
     """
 
     activities: list[int]
     release_date: int = 0
-    due_date: int | None = None
 
     @property
     def num_activities(self):
