@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from typing import Optional
 
 
 @dataclass
@@ -20,7 +19,7 @@ class Resource:
 
     capacity: int
     renewable: bool
-    skills: Optional[list[bool]] = None
+    skills: list[bool] | None = None
 
 
 @dataclass
@@ -41,7 +40,7 @@ class Mode:
 
     duration: int
     demands: list[int]
-    skill_requirements: Optional[list[int]] = None
+    skill_requirements: list[int] | None = None
 
 
 @dataclass
@@ -73,7 +72,7 @@ class Activity:
 
     modes: list[Mode]
     successors: list[int]
-    delays: Optional[list[int]] = None
+    delays: list[int] | None = None
     optional: bool = False
     selection_groups: list[list[int]] = field(default_factory=list)
     name: str = ""
@@ -108,7 +107,7 @@ class Project:
 
     activities: list[int]
     release_date: int = 0
-    due_date: Optional[int] = None
+    due_date: int | None = None
 
     @property
     def num_activities(self):
@@ -136,7 +135,7 @@ class ProjectInstance:
     resources: list[Resource]
     activities: list[Activity]
     projects: list[Project]
-    skills: Optional[list[int]] = None
+    skills: list[int] | None = None
 
     @property
     def num_resources(self):
